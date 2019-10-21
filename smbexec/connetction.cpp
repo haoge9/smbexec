@@ -81,7 +81,7 @@ void ClosePipe( HANDLE hPipe )
 HANDLE CreateXPipe( char * szPipeName )
 {
     HANDLE hPipe = NULL;
-    // inheritance ±ÿ–ÎŒ™true ≤≈ø…“‘ π”√ STARTF_USESTDHANDLES
+    // inheritance ÂøÖÈ°ª‰∏∫true ÊâçÂèØ‰ª•‰ΩøÁî® STARTF_USESTDHANDLES
     SECURITY_ATTRIBUTES sa =  { sizeof(sa), NULL, TRUE };
     debug( "hPipeName:%s\n", szPipeName );
 
@@ -89,7 +89,7 @@ HANDLE CreateXPipe( char * szPipeName )
                              PIPE_ACCESS_DUPLEX,
                              PIPE_TYPE_MESSAGE | 
                              PIPE_READMODE_MESSAGE | 
-                             PIPE_WAIT, // ◊Ë»˚£øor∑«◊Ë»˚£ø
+                             PIPE_WAIT, // ÈòªÂ°ûÔºüorÈùûÈòªÂ°ûÔºü
                              PIPE_UNLIMITED_INSTANCES, 
                              BUFFERSIZE,
                              BUFFERSIZE,

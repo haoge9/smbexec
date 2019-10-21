@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include "makeserver.h"
 
+#include <iostream>
+using namespace std;
 
 #define SERVICE_NAME "SMBSVC"
 #pragma comment(lib, "advapi32.lib")
@@ -87,7 +89,9 @@ void ServiceRunning( DWORD dwArgc, LPSTR * lpszArgv )
         SetServiceStop();
         return;
     }
-    */
+    //*/
+
+	OutputDebugString( "SMBSVC - SetServiceRuning" );
 
     SetServiceRuning();
     Server();
@@ -100,7 +104,7 @@ void ServiceRunning( DWORD dwArgc, LPSTR * lpszArgv )
 
         Sleep( 1000 );
     }
-    */
+    //*/
 
     return;
 }
@@ -115,7 +119,6 @@ void WINAPI ServiceMain( DWORD dwArgc, LPSTR * lpszArgv )
 
     ServiceDelete();
     SetServiceStop();
-
 
 }
 
@@ -132,12 +135,14 @@ void ServiceDelete()
     if ( !schService )
     {
         CloseServiceHandle( schSCManager );
-        server_debug("nima");
+        server_debug("nima, OpenService fail");
         return;
     }
 
     if ( !DeleteService( schService ) )
-        server_debug("gun");
+        server_debug("gun, delete service fail");
+	else
+		server_debug("DeleteService SUCCESS");
 
     CloseServiceHandle( schService );
     CloseServiceHandle( schSCManager );
@@ -153,11 +158,13 @@ void ServiceInstall()
     if ( !GetModuleFileName( NULL, szPath, MAX_PATH ) )
         return;
 
-    schSCManager = OpenSCManager( NULL, NULL, SC_MANAGER_ALL_ACCESS );
-    if ( !schSCManager )
-        return;
+    schSCManager = ::OpenSCManager( NULL, NULL,SC_MANAGER_CREATE_SERVICE);// SC_MANAGER_ALL_ACCESS 
+    //if ( !schSCManager )
+    //    return;
 
-    schService = CreateService( schSCManager,
+
+
+    schService = ::CreateService( schSCManager,
                                 SERVICE_NAME,
                                 SERVICE_NAME,
                                 SERVICE_ALL_ACCESS,
@@ -189,8 +196,14 @@ int main( int argc, char **argv )
     {
         ServiceInstall();
         return 0;
-    }
+    }	
 #endif
+
+	if( argc > 1 && argv[1][0] == 'u' )
+	{
+		ServiceDelete();
+        return 0;
+	}
 
     SERVICE_TABLE_ENTRY DispatchTable[] = 
     {
@@ -198,7 +211,7 @@ int main( int argc, char **argv )
         { NULL, NULL }
     };
 
-    // ·şÎñ³ÌĞòÆô¶¯µÄÊ±ºò±ØĞëÊÇÕâ¸öº¯ÊıÔÚÏìÓ¦¡£
+    // æœåŠ¡ç¨‹åºå¯åŠ¨çš„æ—¶å€™å¿…é¡»æ˜¯è¿™ä¸ªå‡½æ•°åœ¨å“åº”ã€‚
     StartServiceCtrlDispatcher( DispatchTable );
 
     return 0;

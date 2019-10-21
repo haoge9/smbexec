@@ -15,7 +15,10 @@
 
 #pragma comment(lib, "mpr.lib")
 
+#ifdef _DEBUG
 #define __DEBUG__
+#endif
+
 #ifdef __DEBUG__
 //#define REMOTE_COMP "192.168.79.129"
 #define REMOTE_COMP "10.16.101.47"
@@ -122,17 +125,17 @@ int main( int argc, char ** argv )
     {
         switch ( c )
         {
-        // Ä¿±êip
+        // ç›®æ ‡ip
         case 'h':
             strncpy( host, optarg, 32 );
         	break;
 
-        // ÓÃ»§Ãû
+        // ç”¨æˆ·å
         case 'u':
             strncpy( LogInfo.szUserName, optarg, NAME_LEN );
         	break;
 
-        // ÃÜÂë
+        // å¯†ç 
         case 'p':
             strncpy( LogInfo.szPassword, optarg, PASSWD_LEN );
         	break;

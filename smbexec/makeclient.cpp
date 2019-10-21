@@ -64,7 +64,7 @@ int Client( char * szRemoteComp, PLOGINFO pLogInfo )
     DWORD len = BUFFERSIZE;
     int r = 0;
 
-    // ·¢ËÍÖ¸ÁîÈÃ·şÎñÆ÷ÔË×ª
+    // å‘é€æŒ‡ä»¤è®©æœåŠ¡å™¨è¿è½¬
     r = PipeSend( hPipeStdin, (char *)pLogInfo, sizeof(LOGINFO) );
     if ( r < 0 )
         return -1;
